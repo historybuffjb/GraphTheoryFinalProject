@@ -2,14 +2,16 @@
 
 from pathlib import Path
 from graph import Graph
+from exceptions import DirError, FileError
 
 
 class DFPP:
     """ class used to generate a planar drawing of a graph """
 
-    def __init__(self, file):
+    def __init__(self, file, output):
         """ init function for DFPP """
         self.__graph = self.__create_graph(file)
+        self.__output_path = self.__verify_output(output)
 
     def __create_graph(self, file):
         """ Generates a graph from a given file """
@@ -20,8 +22,18 @@ class DFPP:
                     for edge in row.replace("\n", "").split(" "):
                         graph.add_edge(tuple(edge.split(",")))
         else:
-            raise FileNotFoundError("{} does not exist.".format(file))
+            raise FileError
         return graph
+
+    def __verify_output(self, output):
+        """
+        Checks that the output directory exists and if it does, sets
+        the output path.
+        """
+        if Path(output).is_dir():
+            return output
+        else:
+            raise DirError
 
     def generate_drawing(self):
         """
