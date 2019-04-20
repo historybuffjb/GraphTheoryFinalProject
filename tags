@@ -1,0 +1,34 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+DFPP	src/dfpp.py	/^class DFPP:$/;"	c
+DirError	src/exceptions.py	/^class DirError(Exception):$/;"	c
+FileError	src/exceptions.py	/^class FileError(Exception):$/;"	c
+Graph	src/graph.py	/^class Graph:$/;"	c
+TEST	src/dfpp.py	/^    TEST = DFPP("test.txt")$/;"	v
+__add_vertices	src/dfpp.py	/^    def __add_vertices(self, ordering):$/;"	m	class:DFPP	file:
+__boyer_myrvold_planar_test	src/dfpp.py	/^    def __boyer_myrvold_planar_test(self):$/;"	m	class:DFPP	file:
+__create_graph	src/dfpp.py	/^    def __create_graph(self, file):$/;"	m	class:DFPP	file:
+__generate_can_ordering	src/dfpp.py	/^    def __generate_can_ordering(self, graph):$/;"	m	class:DFPP	file:
+__generate_edges	src/graph.py	/^    def __generate_edges(self):$/;"	m	class:Graph	file:
+__generate_final_graph	src/dfpp.py	/^    def __generate_final_graph(self, grid):$/;"	m	class:DFPP	file:
+__init__	src/dfpp.py	/^    def __init__(self, file, output):$/;"	m	class:DFPP
+__init__	src/graph.py	/^    def __init__(self, graph_dict=None):$/;"	m	class:Graph
+__str__	src/graph.py	/^    def __str__(self):$/;"	m	class:Graph	file:
+__verify_output	src/dfpp.py	/^    def __verify_output(self, output):$/;"	m	class:DFPP	file:
+add_edge	src/graph.py	/^    def add_edge(self, edge):$/;"	m	class:Graph
+add_vertex	src/graph.py	/^    def add_vertex(self, vertex):$/;"	m	class:Graph
+description	src/main.py	/^        description="This program will produce a plane graph drawing of an input planar graph file."$/;"	v
+edges	src/graph.py	/^    def edges(self):$/;"	m	class:Graph
+generate_drawing	src/dfpp.py	/^    def generate_drawing(self):$/;"	m	class:DFPP
+help	src/main.py	/^        help=($/;"	v
+main	src/main.py	/^def main(args):$/;"	f
+nargs	src/main.py	/^        nargs="+",$/;"	v
+num_edges	src/graph.py	/^    def num_edges(self):$/;"	m	class:Graph
+num_vertices	src/graph.py	/^    def num_vertices(self):$/;"	m	class:Graph
+parser	src/main.py	/^    parser = ArgumentParser($/;"	v
+type	src/main.py	/^        type=str,$/;"	v
+vertices	src/graph.py	/^    def vertices(self):$/;"	m	class:Graph
