@@ -13,6 +13,8 @@ flake8 = "*"
 pyqt5 = "*"
 networkx = "*"
 matplotlib = "*"
+cython = "*"
+planarity = "*"
 
 [requires]
 python_version = "3.7"

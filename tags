@@ -63,6 +63,7 @@ FUTUREPERTINENT	src/planarity/planarity/src/graphStructures.h	762;"	d
 FunctionDoc	src/planarity/doc/sphinxext/docscrape.py	/^class FunctionDoc(NumpyDocString):$/;"	c
 G	src/planarity/examples/networkx_draw.py	/^G=nx.wheel_graph(10)$/;"	v
 G	src/planarity/examples/networkx_interface.py	/^G=nx.complete_graph(5)$/;"	v
+G	src/test.py	/^G = nx.complete_graph(4)$/;"	v
 GRAPHDFSUTILS_C	src/planarity/planarity/src/graphDFSUtils.c	7;"	d	file:
 GRAPHFUNCTIONTABLE_H	src/planarity/planarity/src/graphFunctionTable.h	2;"	d
 GRAPHISOLATOR_C	src/planarity/planarity/src/graphIsolator.c	7;"	d	file:
