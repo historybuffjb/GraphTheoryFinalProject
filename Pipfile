@@ -15,6 +15,7 @@ networkx = "*"
 matplotlib = "*"
 cython = "*"
 planarity = "*"
+numpy = "*"
 
 [requires]
 python_version = "3.7"
