@@ -15,7 +15,7 @@ __init__	src/drawing.py	/^    def __init__(self):$/;"	m	class:PlanarDrawing
 __same_neighbors	src/drawing.py	/^    def __same_neighbors(self):$/;"	m	class:PlanarDrawing	file:
 __tutte_embedding	src/drawing.py	/^    def __tutte_embedding(self, outter_face):$/;"	m	class:PlanarDrawing	file:
 default	src/main.py	/^        default="",$/;"	v
-description	src/main.py	/^        description="This program will produce a plane graph drawing of an input planar graph file."$/;"	v
+description	src/main.py	/^        description=($/;"	v
 draw_graph	src/drawing.py	/^    def draw_graph(self, output, name=None):$/;"	m	class:PlanarDrawing
 help	src/main.py	/^        help=($/;"	v
 load_adj_list	src/drawing.py	/^    def load_adj_list(self, file):$/;"	m	class:PlanarDrawing

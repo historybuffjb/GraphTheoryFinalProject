@@ -15,19 +15,23 @@ def main(args):
         obj.load_adj_list(file)
         obj.draw_graph(output, file_out)
     except FileError:
-        print("The text file is not formatted correctly. See help.")
+        print("Error: The text file is not formatted correctly. See help.")
     except DirError:
-        print("The output directory given does not exist. See help.")
+        print("Error: The output directory given does not exist. See help.")
     except ConnectivityError:
-        print("The input graph must be triconnected. See help.")
+        print("Error: The input graph must be triconnected. See help.")
     except FileExistsError:
-        print("Filein does not exist. See help.")
+        print("Error: Filein does not exist. See help.")
     print("Program exiting...")
 
 
 if __name__ == "__main__":
     PARSER = ArgumentParser(
-        description="This program will produce a plane graph drawing of an input planar graph file."
+        description=(
+            "This program will produce a plane graph drawing of an input planar graph "
+            "file, as long as the graph is triconnected. To read more about "
+            "triconnected graphs please visit https://en.wikipedia.org/wiki/K-vertex-connected_graph"
+        )
     )
     PARSER.add_argument(
         "file",
@@ -35,8 +39,8 @@ if __name__ == "__main__":
         nargs="?",
         help=(
             "The file containing the adjacency list of your graph. "
-            "The correct format is as follows and can be spread across multiple lines: "
-            "[[..], [..], [..]..]"
+            "The correct format for each line is as follows and the "
+            "graph must be spread across multiple lines: 1 1 1 1"
         ),
     )
     PARSER.add_argument(
