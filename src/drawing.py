@@ -7,13 +7,9 @@ from matplotlib import pyplot as plt
 class FileError(Exception):
     """ Used for error handling """
 
-    pass
-
 
 class DirError(Exception):
     """ Used for error handling """
-
-    pass
 
 
 class PlanarDrawing:
@@ -25,9 +21,11 @@ class PlanarDrawing:
         self.__adj_list = None
 
     def load_adj_list(self, file):
+        """ Loads an adjacency list from a file and converts it to a networkx graph """
         pass
 
     def load_example(self, example, num_nodes):
+        """ Loads an example graph based on the user specifications. """
         pass
 
     @staticmethod
