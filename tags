@@ -4,26 +4,21 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ConnectivityError	src/drawing.py	/^class ConnectivityError(Exception):$/;"	c
 DirError	src/drawing.py	/^class DirError(Exception):$/;"	c
 FileError	src/drawing.py	/^class FileError(Exception):$/;"	c
-GROUP	src/main.py	/^    GROUP = PARSER.add_mutually_exclusive_group(required=True)$/;"	v
-MAX_NODES	src/main.py	/^MAX_NODES = 100$/;"	v
+NoAdjList	src/drawing.py	/^class NoAdjList(Exception):$/;"	c
 PARSER	src/main.py	/^    PARSER = ArgumentParser($/;"	v
 PlanarDrawing	src/drawing.py	/^class PlanarDrawing:$/;"	c
-__draw_adj	src/drawing.py	/^    def __draw_adj(self):$/;"	m	class:PlanarDrawing	file:
-__get_face	src/drawing.py	/^    def __get_face(graph):$/;"	m	class:PlanarDrawing	file:
+__get_face	src/drawing.py	/^    def __get_face(self):$/;"	m	class:PlanarDrawing	file:
 __init__	src/drawing.py	/^    def __init__(self):$/;"	m	class:PlanarDrawing
-__tutte_embedding	src/drawing.py	/^    def __tutte_embedding(graph, outter_face):$/;"	m	class:PlanarDrawing	file:
-choices	src/main.py	/^        choices=["CompleteGraph", "Random"],$/;"	v
+__same_neighbors	src/drawing.py	/^    def __same_neighbors(self):$/;"	m	class:PlanarDrawing	file:
+__tutte_embedding	src/drawing.py	/^    def __tutte_embedding(self, outter_face):$/;"	m	class:PlanarDrawing	file:
 default	src/main.py	/^        default="",$/;"	v
-default	src/main.py	/^        default=0,$/;"	v
 description	src/main.py	/^        description="This program will produce a plane graph drawing of an input planar graph file."$/;"	v
 draw_graph	src/drawing.py	/^    def draw_graph(self, output, name=None):$/;"	m	class:PlanarDrawing
 help	src/main.py	/^        help=($/;"	v
 load_adj_list	src/drawing.py	/^    def load_adj_list(self, file):$/;"	m	class:PlanarDrawing
-load_example	src/drawing.py	/^    def load_example(self, example, num_nodes):$/;"	m	class:PlanarDrawing
 main	src/main.py	/^def main(args):$/;"	f
 nargs	src/main.py	/^        nargs="?",$/;"	v
-same_neighbors	src/drawing.py	/^    def same_neighbors(graph):$/;"	m	class:PlanarDrawing
-type	src/main.py	/^        type=int,$/;"	v
 type	src/main.py	/^        type=str,$/;"	v

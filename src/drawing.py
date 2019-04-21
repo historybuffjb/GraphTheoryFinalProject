@@ -2,6 +2,7 @@ from datetime import datetime
 import networkx as nx
 import numpy as np
 from matplotlib import pyplot as plt
+from pathlib import Path
 
 
 class FileError(Exception):
@@ -12,6 +13,14 @@ class DirError(Exception):
     """ Used for error handling """
 
 
+class NoAdjList(Exception):
+    """ Used for error handling """
+
+
+class ConnectivityError(Exception):
+    """ Used for error handling """
+
+
 class PlanarDrawing:
     """ Uses the Networkx python module and the code developed by
         Jaden Stock(ref:  https://github.com/jadenstock/Tutte-embedding) """
@@ -19,24 +28,31 @@ class PlanarDrawing:
     def __init__(self):
         self.__graph_drawn = False
         self.__adj_list = None
+        self.__graph = None
 
     def load_adj_list(self, file):
         """ Loads an adjacency list from a file and converts it to a networkx graph """
-        pass
+        if Path(file).is_file():
+            try:
+                self.__adj_list = np.loadtxt(file)
+                self.__graph = nx.from_numpy_matrix(self.__adj_list)
+                if nx.node_connectivity(self.__graph) != 3:
+                    self.__adj_list = None
+                    self.__graph = None
+                    raise ConnectivityError
+            except ValueError:
+                raise FileError
+        else:
+            raise FileExistsError
 
-    def load_example(self, example, num_nodes):
-        """ Loads an example graph based on the user specifications. """
-        pass
-
-    @staticmethod
-    def same_neighbors(graph):
+    def __same_neighbors(self):
         """ Creates a list of vertices in the graph which share neighbors """
         same_neighbors = []
-        for neighb in graph:
+        for neighb in self.__graph:
             same_neighbors_u = [neighb]
-            for vert in graph:
+            for vert in self.__graph:
                 if vert != neighb:
-                    if set(graph[neighb]) == set(graph[vert]):
+                    if set(self.__graph[neighb]) == set(self.__graph[vert]):
                         same_neighbors_u.append(vert)
             if len(same_neighbors_u) > 1:
                 same_neighbors.append(same_neighbors_u)
@@ -50,8 +66,7 @@ class PlanarDrawing:
 
     # input: a graph in the form of a dictionary and an outter_face in the form of a
     # list of vertices.
-    @staticmethod
-    def __tutte_embedding(graph, outter_face):
+    def __tutte_embedding(self, outter_face):
         """ Produces a list of positions for each vertice """
         pos = {}  # a dictionary of node positions
         tmp = nx.Graph()
@@ -61,7 +76,7 @@ class PlanarDrawing:
         tmp_pos = nx.spectral_layout(tmp)  # ensures that outterface is a convex shape
         pos.update(tmp_pos)
         outter_vertices = tmp.nodes()
-        remaining_vertices = [x for x in graph.nodes() if x not in outter_vertices]
+        remaining_vertices = [x for x in self.__graph.nodes() if x not in outter_vertices]
         size = len(remaining_vertices)
         # create the the system of equations that will determine the x and y positions of
         # remaining vertices
@@ -72,7 +87,7 @@ class PlanarDrawing:
         d_list = [0 for i in range(size)]
         for rem in remaining_vertices:
             i = remaining_vertices.index(rem)
-            neighbors = graph.neighbors(rem)
+            neighbors = self.__graph.neighbors(rem)
             len_neighb = len([n for n in neighbors])
             a_list[i][i] = 1
             c_list[i][i] = 1
@@ -91,63 +106,36 @@ class PlanarDrawing:
             pos[rem] = [x_coord[i], y_coord[i]]
         return pos
 
-    @staticmethod
-    def __get_face(graph):
-        pass
-
-    def __draw_adj(self):
-        if self.__adj_list:
-            for i in range(len(self.__adj_list)):
-                print("[")
-                for j in range(len(self.__adj_list[i])):
-                    print(f" {self.__adj_list[i][j]} ")
-                print("]")
+    def __get_face(self):
+        """ Gets an outer face to draw a planar drawing """
+        return self.__same_neighbors()
 
     def draw_graph(self, output, name=None):
         """ Draws a plane embedding of a given graph, if planar and 3-connected """
-        if self.__adj_list:
-            graph = nx.from_numpy_matrix(self.__adj_list)
-            is_planar, kuratowski = nx.algorithms.planarity.check_planarity(graph, True)
+        if self.__graph:
+            nx.draw_networkx(self.__graph)
+            if isinstance(name, str) and "." not in name:
+                orig_name = f"{name}_orig"
+                name = f"{name}"
+            else:
+                orig_name = f"{datetime.now}_orig"
+                name = f"{datetime.now}"
+            plt.savefig(f'{orig_name}.png')
+            is_planar, kuratowski = nx.algorithms.planarity.check_planarity(self.__graph, True)
             if is_planar:
                 # Get random face
-                face = self.__get_face(graph)
-                pos = self.__tutte_embedding(graph, face)
-                nx.draw_networkx(graph, pos)
+                face = self.__get_face()
+                pos = self.__tutte_embedding(face)
+                nx.draw_networkx(self.__graph, pos)
             else:
                 print(
-                    f"Sorry, the adjancy list {self.__draw_adj()} does not represent a planar "
+                    f"The adjancy list \n{self.__adj_list}\n does not represent a planar "
                     "graph. Returning a Kuratowski subgraph instead..."
                 )
                 nx.draw_networkx(kuratowski)
-            if isinstance(name) == str and "." not in name:
-                plt.save(name)
-            else:
-                plt.save(f"{datetime.now()}.png")
-
-
-# diamond1 = np.matrix(
-# [[0, 1, 1, 1, 0], [1, 0, 0, 0, 1], [1, 0, 0, 0, 1], [1, 0, 0, 0, 1], [0, 1, 1, 1, 0]]
-# )
-# G = nx.from_numpy_matrix(diamond1)
-# pos = tutte_embedding(G, [(0, 1), (1, 4), (4, 3), (3, 0)])
-# nx.draw_networkx(G, pos)
-# plt.show()
-
-# example = np.matrix(
-# [
-# [0, 1, 0, 1, 1, 0, 0, 0],
-# [1, 0, 1, 0, 0, 1, 0, 0],
-# [0, 1, 0, 1, 0, 0, 1, 0],
-# [1, 0, 1, 0, 0, 0, 0, 1],
-# [1, 0, 0, 0, 0, 1, 0, 1],
-# [0, 1, 0, 0, 1, 0, 1, 0],
-# [0, 0, 1, 0, 0, 1, 0, 1],
-# [0, 0, 0, 1, 1, 0, 1, 0],
-# ]
-# )
-# G = nx.from_numpy_matrix(example)
-# G = nx.PlanarEmbedding(example)
-# pos = tutte_embedding(G, [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 0)])
-# nx.draw_networkx(G, pos)
-# print(G.check_structure())
-# plt.show()
+                name = f'{name}_kuratowski'
+            plt.savefig(f'{name}.png')
+            self.__adj_list = None
+        else:
+            # This will only be used as stand-alone
+            raise NoAdjList("No adjacency list. Run load_adj_list and then retry.")
