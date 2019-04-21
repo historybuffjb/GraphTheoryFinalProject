@@ -1,11 +1,13 @@
-import warnings
-
-warnings.filterwarnings("ignore")
+""" This is our graph drawing module """
 from datetime import datetime
+from pathlib import Path
 import networkx as nx
 import numpy as np
 from matplotlib import pyplot as plt
-from pathlib import Path
+import warnings
+
+# Matplotlib has weird warnings. Ignore all of them.
+warnings.filterwarnings("ignore")
 
 
 class FileError(Exception):
@@ -21,6 +23,10 @@ class NoAdjList(Exception):
 
 
 class ConnectivityError(Exception):
+    """ Used for error handling """
+
+
+class MaxNodesError(Exception):
     """ Used for error handling """
 
 
@@ -41,36 +47,19 @@ class PlanarDrawing:
                 self.__adj_list = np.loadtxt(file)
                 print("Converting adjacency matrix to networkx graph...")
                 self.__graph = nx.from_numpy_matrix(self.__adj_list)
-                print("Checkout that graph is triconnected...")
+                print("Checking that graph is triconnected...")
                 if nx.node_connectivity(self.__graph) != 3:
                     self.__adj_list = None
                     self.__graph = None
                     raise ConnectivityError
+                print("Checking that the number of nodes is between 3 and 100...")
+                if nx.number_of_nodes(self.__graph) < 3 or nx.number_of_nodes(self.__graph) > 100:
+                    raise MaxNodesError
                 print("Graph successfully loaded.")
             except ValueError:
                 raise FileError
         else:
             raise FileExistsError
-
-    def __same_neighbors(self):
-        """ Creates a list of vertices in the graph which share neighbors """
-        same_neighbors = []
-        for neighb in self.__graph:
-            same_neighbors_u = [neighb]
-            for vert in self.__graph:
-                if vert != neighb:
-                    if set(self.__graph[neighb]) == set(self.__graph[vert]):
-                        same_neighbors_u.append(vert)
-            if len(same_neighbors_u) > 1:
-                same_neighbors.append(same_neighbors_u)
-        same_neighbors = [set(x) for x in same_neighbors]
-        same = []
-        for i in same_neighbors:
-            if i not in same:
-                same.append(i)
-        same = [list(x) for x in same]
-        print("Same: {}".format(same))
-        return same
 
     # input: a graph in the form of a dictionary and an outter_face in the form of a
     # list of vertices.
@@ -120,9 +109,10 @@ class PlanarDrawing:
         return pos
 
     def __get_face(self):
-        """ Gets an outer face to draw a planar drawing """
-        # return self.__same_neighbors()
-        return [(0, 1), (1, 2), (2,3), (3, 0)]
+        """
+        Gets an outer face to draw a planar drawing.
+        """
+        return [(0, 1), (1, 2), (2, 3), (3, 0)]
 
     def draw_graph(self, output, name=None):
         """ Draws a plane embedding of a given graph, if planar and 3-connected """

@@ -7,12 +7,12 @@
 ConnectivityError	src/drawing.py	/^class ConnectivityError(Exception):$/;"	c
 DirError	src/drawing.py	/^class DirError(Exception):$/;"	c
 FileError	src/drawing.py	/^class FileError(Exception):$/;"	c
+MaxNodesError	src/drawing.py	/^class MaxNodesError(Exception):$/;"	c
 NoAdjList	src/drawing.py	/^class NoAdjList(Exception):$/;"	c
 PARSER	src/main.py	/^    PARSER = ArgumentParser($/;"	v
 PlanarDrawing	src/drawing.py	/^class PlanarDrawing:$/;"	c
 __get_face	src/drawing.py	/^    def __get_face(self):$/;"	m	class:PlanarDrawing	file:
 __init__	src/drawing.py	/^    def __init__(self):$/;"	m	class:PlanarDrawing
-__same_neighbors	src/drawing.py	/^    def __same_neighbors(self):$/;"	m	class:PlanarDrawing	file:
 __tutte_embedding	src/drawing.py	/^    def __tutte_embedding(self, outter_face):$/;"	m	class:PlanarDrawing	file:
 default	src/main.py	/^        default="",$/;"	v
 description	src/main.py	/^        description=($/;"	v

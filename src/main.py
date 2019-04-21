@@ -2,7 +2,7 @@
 This is the main file. It is where our command line script runs from.
 """
 from argparse import ArgumentParser
-from drawing import PlanarDrawing, FileError, DirError, ConnectivityError
+from drawing import PlanarDrawing, FileError, DirError, ConnectivityError, MaxNodesError
 
 
 def main(args):
@@ -20,6 +20,8 @@ def main(args):
         print("Error: The output directory given does not exist. See help.")
     except ConnectivityError:
         print("Error: The input graph must be triconnected. See help.")
+    except MaxNodesError:
+        print("Error: The input graph must have between 3 and 100 nodes. See help.")
     except FileExistsError:
         print("Error: Filein does not exist. See help.")
     print("Program exiting...")
