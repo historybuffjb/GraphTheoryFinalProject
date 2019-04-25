@@ -112,7 +112,39 @@ class PlanarDrawing:
         """
         Gets an outer face to draw a planar drawing.
         """
-        return [(0, 1), (1, 2), (2, 3), (3, 0)]
+        # TODO: Figure out the convex face algorithm return []
+        H = self.__graph.to_directed()
+        simple_cycles = list(nx.simple_cycles(H))
+        periph_cycle = None
+        for cycle in simple_cycles:
+            if self.__remove_edges(cycle):
+                periph_cycle = cycle
+                break
+        return self.__package_cycle(periph_cycle)
+
+    def __remove_edges(self, cycle):
+        """
+        Removes the cycle from the graph, and then checks if graph is still connected. 
+        If it is, we have found a peripheral cycle. Return True. If none found return false. 
+        """
+        edges = []
+        temp = self.__graph
+        for vertice in cycle:
+            for adjacent in cycle:
+                if vertice != adjacent and tuple((adjacent, vertice)) not in edges and tuple((vertice, adjacent)) not in edges:
+                    edges.append(tuple((vertice, adjacent)))
+        for edge in edges:
+            print("Edge: {}".format(edge))
+            temp.remove_edge(*list(edge)) 
+        if nx.is_connected(temp):
+            return True
+        return False
+
+    def __package_cycle(self, cycle):
+        """ 
+        Takes an input cycle and returns a list of tuples defining edges of the cycle
+        """
+        exit
 
     def draw_graph(self, output, name=None):
         """ Draws a plane embedding of a given graph, if planar and 3-connected """
