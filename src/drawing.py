@@ -1,6 +1,7 @@
 """ This is our graph drawing module """
 from datetime import datetime
 from pathlib import Path
+from copy import deepcopy
 import networkx as nx
 import numpy as np
 from matplotlib import pyplot as plt
@@ -67,10 +68,10 @@ class PlanarDrawing:
         """ Produces a list of positions for each vertice """
         print("Creating a tutte embedding of the graph...")
         # a dictionary of node positions
+        print(f"Outter face: {outter_face}")
+        print(f"Graph Edges: {self.__graph.edges()}")
         pos = {}
         tmp = nx.Graph()
-        print(self.__graph.edges())
-        print(outter_face)
         for edge in outter_face:
             edge_a, edge_b = edge
             tmp.add_edge(edge_a, edge_b)
@@ -116,17 +117,23 @@ class PlanarDrawing:
         """
         Gets an outer face to draw a planar drawing.
         """
-        dir_graph = self.__graph.to_directed()
-        unrefined_cycles = list(nx.simple_cycles(dir_graph))
+        unrefined_cycles = self.__generate_cycles()
         refined_cycles = self.__create_cycle_tuples(unrefined_cycles)
         periph_cycle = None
         for cycle in refined_cycles:
-            if self.__remove_edges(dir_graph, cycle):
+            if self.__remove_edges(cycle):
                 periph_cycle = cycle
                 break
         # Naively we are assuming that since it got this far we can find an
         # outter face
         return periph_cycle
+
+    def __generate_cycles(self):
+        """
+        Generates all cycles in self's graph. Its actually just the cycle basis
+        but it works just fine. We just need a cycle due to the 3-connectedness.
+        """
+        return nx.cycle_basis(self.__graph)
 
     @staticmethod
     def __create_cycle_tuples(cycles):
@@ -141,17 +148,17 @@ class PlanarDrawing:
             result.append(temp)
         return result
 
-    @staticmethod
-    def __remove_edges(dir_graph, cycle):
+    def __remove_edges(self, cycle):
         """
         Removes the cycle from the graph, and then checks if graph is still connected.
         If it is, we have found a peripheral cycle. Return True. If none found return false.
         """
         edges = []
-        temp = dir_graph
+        temp = deepcopy(self.__graph)
+        # Remove the complete cycle from the graph
         for edge in cycle:
             temp.remove_edge(*edge)
-        if nx.is_connected(temp.to_undirected()):
+        if nx.is_connected(temp):
             return True
         return False
 
@@ -175,6 +182,7 @@ class PlanarDrawing:
                     name = Path(output) / Path(f"{datetime.now()}")
                 print(f"Creating original graph image at {orig_name}.png...")
                 plt.savefig(f"{orig_name}.png")
+                plt.clf()
                 print("Checking graph planarity...")
                 is_planar, kuratowski = nx.algorithms.planarity.check_planarity(self.__graph, True)
                 if is_planar:
@@ -204,5 +212,9 @@ class PlanarDrawing:
 
 if __name__ == "__main__":
     obj = PlanarDrawing()
-    obj.load_adj_list("/home/johnathan/Documents/GraphTheoryFinalProject/tests/test-cube.txt")
-    obj.draw_graph("/home/johnathan/Documents/GraphTheoryFinalProject/tests/pictures/", "cube")
+    obj.load_adj_list(
+        "/Users/johnathanbecker/Documents/GraphTheoryFinalProject/tests/test-cube.txt"
+    )
+    obj.draw_graph(
+        "/Users/johnathanbecker/Documents/GraphTheoryFinalProject/tests/pictures/", "cube"
+    )

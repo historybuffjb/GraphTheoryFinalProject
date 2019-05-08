@@ -3,20 +3,30 @@
 !_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
-!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+!_TAG_PROGRAM_VERSION	5.8	//
+ArgumentParser	src/main.py	/^from argparse import ArgumentParser$/;"	i
 ConnectivityError	src/drawing.py	/^class ConnectivityError(Exception):$/;"	c
+ConnectivityError	src/main.py	/^from drawing import PlanarDrawing, FileError, DirError, ConnectivityError, MaxNodesError$/;"	i
 DirError	src/drawing.py	/^class DirError(Exception):$/;"	c
+DirError	src/main.py	/^from drawing import PlanarDrawing, FileError, DirError, ConnectivityError, MaxNodesError$/;"	i
 FileError	src/drawing.py	/^class FileError(Exception):$/;"	c
+FileError	src/main.py	/^from drawing import PlanarDrawing, FileError, DirError, ConnectivityError, MaxNodesError$/;"	i
 MaxNodesError	src/drawing.py	/^class MaxNodesError(Exception):$/;"	c
+MaxNodesError	src/main.py	/^from drawing import PlanarDrawing, FileError, DirError, ConnectivityError, MaxNodesError$/;"	i
 NoAdjList	src/drawing.py	/^class NoAdjList(Exception):$/;"	c
 PARSER	src/main.py	/^    PARSER = ArgumentParser($/;"	v
+Path	src/drawing.py	/^from pathlib import Path$/;"	i
 PlanarDrawing	src/drawing.py	/^class PlanarDrawing:$/;"	c
+PlanarDrawing	src/main.py	/^from drawing import PlanarDrawing, FileError, DirError, ConnectivityError, MaxNodesError$/;"	i
 __create_cycle_tuples	src/drawing.py	/^    def __create_cycle_tuples(cycles):$/;"	m	class:PlanarDrawing	file:
+__generate_cycles	src/drawing.py	/^    def __generate_cycles(self):$/;"	m	class:PlanarDrawing	file:
 __get_face	src/drawing.py	/^    def __get_face(self):$/;"	m	class:PlanarDrawing	file:
 __init__	src/drawing.py	/^    def __init__(self):$/;"	m	class:PlanarDrawing
 __package_cycle	src/drawing.py	/^    def __package_cycle(self, cycle):$/;"	m	class:PlanarDrawing	file:
-__remove_edges	src/drawing.py	/^    def __remove_edges(dir_graph, cycle):$/;"	m	class:PlanarDrawing	file:
+__remove_edges	src/drawing.py	/^    def __remove_edges(self, cycle):$/;"	m	class:PlanarDrawing	file:
 __tutte_embedding	src/drawing.py	/^    def __tutte_embedding(self, outter_face):$/;"	m	class:PlanarDrawing	file:
+datetime	src/drawing.py	/^from datetime import datetime$/;"	i
+deepcopy	src/drawing.py	/^from copy import deepcopy$/;"	i
 default	src/main.py	/^        default="",$/;"	v
 description	src/main.py	/^        description=($/;"	v
 draw_graph	src/drawing.py	/^    def draw_graph(self, output, name=None):$/;"	m	class:PlanarDrawing
@@ -24,5 +34,9 @@ help	src/main.py	/^        help=($/;"	v
 load_adj_list	src/drawing.py	/^    def load_adj_list(self, file):$/;"	m	class:PlanarDrawing
 main	src/main.py	/^def main(args):$/;"	f
 nargs	src/main.py	/^        nargs="?",$/;"	v
+np	src/drawing.py	/^import numpy as np$/;"	i
+nx	src/drawing.py	/^import networkx as nx$/;"	i
 obj	src/drawing.py	/^    obj = PlanarDrawing()$/;"	v	class:PlanarDrawing
+plt	src/drawing.py	/^from matplotlib import pyplot as plt$/;"	i
 type	src/main.py	/^        type=str,$/;"	v
+warnings	src/drawing.py	/^import warnings$/;"	i
