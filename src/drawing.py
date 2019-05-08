@@ -66,12 +66,16 @@ class PlanarDrawing:
     def __tutte_embedding(self, outter_face):
         """ Produces a list of positions for each vertice """
         print("Creating a tutte embedding of the graph...")
-        pos = {}  # a dictionary of node positions
+        # a dictionary of node positions
+        pos = {}
         tmp = nx.Graph()
+        print(self.__graph.edges())
+        print(outter_face)
         for edge in outter_face:
             edge_a, edge_b = edge
             tmp.add_edge(edge_a, edge_b)
-        tmp_pos = nx.spectral_layout(tmp)  # ensures that outterface is a convex shape
+        # ensures that outterface is a convex shape
+        tmp_pos = nx.spectral_layout(tmp)
         print("Check: outer face is of convex shape...")
         pos.update(tmp_pos)
         outter_vertices = tmp.nodes()
@@ -112,39 +116,50 @@ class PlanarDrawing:
         """
         Gets an outer face to draw a planar drawing.
         """
-        # TODO: Figure out the convex face algorithm return []
-        H = self.__graph.to_directed()
-        simple_cycles = list(nx.simple_cycles(H))
+        dir_graph = self.__graph.to_directed()
+        unrefined_cycles = list(nx.simple_cycles(dir_graph))
+        refined_cycles = self.__create_cycle_tuples(unrefined_cycles)
         periph_cycle = None
-        for cycle in simple_cycles:
-            if self.__remove_edges(cycle):
+        for cycle in refined_cycles:
+            if self.__remove_edges(dir_graph, cycle):
                 periph_cycle = cycle
                 break
-        return self.__package_cycle(periph_cycle)
+        # Naively we are assuming that since it got this far we can find an
+        # outter face
+        return periph_cycle
 
-    def __remove_edges(self, cycle):
+    @staticmethod
+    def __create_cycle_tuples(cycles):
         """
-        Removes the cycle from the graph, and then checks if graph is still connected. 
-        If it is, we have found a peripheral cycle. Return True. If none found return false. 
+        Given a table of networkx cycles, create an array of tuples for each cycle
+        """
+        result = []
+        for cycle in cycles:
+            temp = []
+            for k, node in enumerate(cycle):
+                temp.append(tuple((cycle[k - 1], node)))
+            result.append(temp)
+        return result
+
+    @staticmethod
+    def __remove_edges(dir_graph, cycle):
+        """
+        Removes the cycle from the graph, and then checks if graph is still connected.
+        If it is, we have found a peripheral cycle. Return True. If none found return false.
         """
         edges = []
-        temp = self.__graph
-        for vertice in cycle:
-            for adjacent in cycle:
-                if vertice != adjacent and tuple((adjacent, vertice)) not in edges and tuple((vertice, adjacent)) not in edges:
-                    edges.append(tuple((vertice, adjacent)))
-        for edge in edges:
-            print("Edge: {}".format(edge))
-            temp.remove_edge(*list(edge)) 
-        if nx.is_connected(temp):
+        temp = dir_graph
+        for edge in cycle:
+            temp.remove_edge(*edge)
+        if nx.is_connected(temp.to_undirected()):
             return True
         return False
 
     def __package_cycle(self, cycle):
-        """ 
+        """
         Takes an input cycle and returns a list of tuples defining edges of the cycle
         """
-        exit
+        exit()
 
     def draw_graph(self, output, name=None):
         """ Draws a plane embedding of a given graph, if planar and 3-connected """
@@ -185,3 +200,9 @@ class PlanarDrawing:
             print("Embedding complete.")
         else:
             raise DirError
+
+
+if __name__ == "__main__":
+    obj = PlanarDrawing()
+    obj.load_adj_list("/home/johnathan/Documents/GraphTheoryFinalProject/tests/test-cube.txt")
+    obj.draw_graph("/home/johnathan/Documents/GraphTheoryFinalProject/tests/pictures/", "cube")
