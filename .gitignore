@@ -105,6 +105,5 @@ venv.bak/
 
 # Sample pictures
 pictures/
-
-# Mac OS
 .DS_Store
+selected

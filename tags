@@ -19,6 +19,7 @@ Path	src/drawing.py	/^from pathlib import Path$/;"	i
 PlanarDrawing	src/drawing.py	/^class PlanarDrawing:$/;"	c
 PlanarDrawing	src/main.py	/^from drawing import PlanarDrawing, FileError, DirError, ConnectivityError, MaxNodesError$/;"	i
 __create_cycle_tuples	src/drawing.py	/^    def __create_cycle_tuples(cycles):$/;"	m	class:PlanarDrawing	file:
+__fix_out_order	src/drawing.py	/^    def __fix_out_order(self, out_cycle):$/;"	m	class:PlanarDrawing	file:
 __generate_cycles	src/drawing.py	/^    def __generate_cycles(self):$/;"	m	class:PlanarDrawing	file:
 __get_face	src/drawing.py	/^    def __get_face(self):$/;"	m	class:PlanarDrawing	file:
 __init__	src/drawing.py	/^    def __init__(self):$/;"	m	class:PlanarDrawing

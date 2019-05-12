@@ -68,8 +68,6 @@ class PlanarDrawing:
         """ Produces a list of positions for each vertice """
         print("Creating a tutte embedding of the graph...")
         # a dictionary of node positions
-        print(f"Outter face: {outter_face}")
-        print(f"Graph Edges: {self.__graph.edges()}")
         pos = {}
         tmp = nx.Graph()
         for edge in outter_face:
@@ -95,6 +93,7 @@ class PlanarDrawing:
             i = remaining_vertices.index(rem)
             neighbors = self.__graph.neighbors(rem)
             len_neighb = len([n for n in neighbors])
+            neighbors = self.__graph.neighbors(rem)
             a_list[i][i] = 1
             c_list[i][i] = 1
             for vertice in neighbors:
@@ -125,8 +124,25 @@ class PlanarDrawing:
                 periph_cycle = cycle
                 break
         # Naively we are assuming that since it got this far we can find an
-        # outter face
-        return periph_cycle
+        # outter face.
+        # HACK: We need to flip tuples if out of order
+        return self.__fix_out_order(periph_cycle)
+
+    def __fix_out_order(self, out_cycle):
+        adders = []
+        removers = []
+        for cycle in out_cycle:
+            if not [(x,y) for x, y in self.__graph.edges() if x == cycle[0] and y == cycle[1]]:
+                if not [(x,y) for x, y in self.__graph.edges() if x == cycle[1] and y == cycle[0]]:
+                    raise Exception("Oops")
+                else:
+                    removers.append(cycle)
+                    adders.append(tuple((cycle[1], cycle[0])))
+        for cycle in removers:
+            out_cycle.remove(cycle)
+        for cycle in adders:
+            out_cycle.append(cycle)
+        return out_cycle
 
     def __generate_cycles(self):
         """
